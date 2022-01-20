@@ -1,7 +1,6 @@
-import telebot
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
-
 from config import TOKEN
+import telebot
 
 bot = telebot.TeleBot(
     token=TOKEN,
