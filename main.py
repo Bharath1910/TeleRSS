@@ -9,8 +9,7 @@ bot = telebot.TeleBot(
 
 # Database connection and setup
 conn = psycopg2.connect(
-    database=DBN,user=DBU,
-    password=DBP,host=DBH,
+    database=DBN,user=DBU,password=DBP,host=DBH,
     port=DBPr
     )
 
