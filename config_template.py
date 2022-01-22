@@ -3,4 +3,4 @@ DBN="" # Database name
 DBU="" # Database Username
 DBP="" # Database Password
 DBH="" # Database Host
-DBP="" # Database Port, its 5432 by default
+DBPr="" # Database Port, its 5432 by default

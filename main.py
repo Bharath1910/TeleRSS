@@ -1,4 +1,4 @@
-from config import TOKEN, DBU, DBU, DBP, DBH
+from config import TOKEN, DBU, DBN, DBPr, DBP, DBH
 import telebot, psycopg2
 
 # Telegram API setup
@@ -11,7 +11,7 @@ bot = telebot.TeleBot(
 conn = psycopg2.connect(
     database=DBN,user=DBU,
     password=DBP,host=DBH,
-    port=DBP
+    port=DBPr
     )
 
 cur = conn.cursor()
@@ -30,14 +30,22 @@ def handle_links(message):
         cur.execute("INSERT INTO links VALUES(%s, %s)", (message.chat.id, f"['{message.text}']"))
         conn.commit()
 
+
 @bot.message_handler(commands=['start','help'])
 def message_handler(message):
-    bot.send_message(message.chat.id, "Hey! This is a RSS Feed Bot.\n [+] Send /add to add a RSS link.\n[+] Send /help to see this message again.\n[+] Send /list to see all your registered RSS links.")
+    help_text = """
+Hey! This is a RSS Feed Bot.
+
+- /add to add a RSS link.
+- /help to see this message again.
+- /list to see all your registered RSS links.
+    """
+    bot.send_message(message.chat.id,help_text)
 
 
 @bot.message_handler(commands=['add'])
 def message_handler(message):
-    msg = bot.send_message(message.chat.id, "Please send a RSS feed link.")
+    msg = bot.send_message(message.chat.id, "Send a RSS feed link.")
     bot.register_next_step_handler(msg, handle_links)
 
 bot.infinity_polling()
