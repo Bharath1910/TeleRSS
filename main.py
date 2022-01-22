@@ -1,12 +1,17 @@
 import telebot
+import psycopg2
 
 from config import TOKEN
+from config import DBP
+from config import DBU
 
 bot = telebot.TeleBot(
     token=TOKEN,
     parse_mode="markdown"
 )
 
+conn = psycopg2.connect(database="telerss", user=DBU, password=DBP, host="127.0.0.1")
+cur = conn.cursor()
 
 @bot.message_handler(commands=['start'])
 def message_handler(message):
@@ -20,8 +25,17 @@ def add_links(message):
         bot.register_next_step_handler(msg, handle_links)
 
 def handle_links(message):
-    db = {str(message.chat.id): [f"{message.text}"]}
-    print(db)
+    cur.execute("SELECT rss_links FROM links WHERE chat_id=%s", (message.chat.id, ))
+    result = cur.fetchone()
+    if result is not None:
+        links = eval(result[0])
+        links.append(message.text)
+        cur.execute("UPDATE links SET rss_links=%s WHERE chat_id=%s", (f"{links}", message.chat.id))
+        conn.commit()
+    elif result is None:
+        cur.execute("INSERT INTO links VALUES(%s, %s)", (message.chat.id, f"['{message.text}']"))
+        conn.commit()
+    
 
 
 bot.infinity_polling()
