@@ -32,12 +32,12 @@ def handle_links(message):
 
 @bot.message_handler(commands=['start','help'])
 def message_handler(message):
-    bot.send_message(message.chat.id, "text....pls do '/add'")
+    bot.send_message(message.chat.id, "Hey! This is a RSS Feed Bot.\n [+] Send /add to add a RSS link.\n[+] Send /help to see this message again.\n[+] Send /list to see all your registered RSS links.")
 
 
 @bot.message_handler(commands=['add'])
 def message_handler(message):
-    msg = bot.send_message(message.chat.id, "text...please send rss link")
+    msg = bot.send_message(message.chat.id, "Please send a RSS feed link.")
     bot.register_next_step_handler(msg, handle_links)
 
 bot.infinity_polling()
