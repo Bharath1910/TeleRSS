@@ -9,10 +9,11 @@ bot = telebot.TeleBot(
 
 def start_markup():
     markup = InlineKeyboardMarkup()
-    markup.row_width = 1
+    markup.row_width = 2
 
     markup.add(
-        InlineKeyboardButton("Send RSS links", callback_data="rss")
+        InlineKeyboardButton("Send RSS links", callback_data="rss"),
+        InlineKeyboardButton("Stop", callback_data="stop")
     )
 
     return markup
@@ -34,13 +35,19 @@ def callback_query(call):
                 for i in links:
                     linkList.append(i.strip())
 
+            elif call.data == "stop":
+                bot.send_message(call.message.chat.id, "Stopped")
+                return 
+                
             else:
                 linkList.append(str(message.text))
 
             db = {str(message.chat.id): linkList}
-            # print(db)
+            print(db)
 
             # database handling: search for chat id; If not present, insert data to database else update
+
+
 
 
 bot.infinity_polling()
