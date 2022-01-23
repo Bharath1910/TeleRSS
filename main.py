@@ -1,4 +1,3 @@
-from unittest import result
 from config import *
 import telebot, psycopg2
 import feedparser
