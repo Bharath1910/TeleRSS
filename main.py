@@ -1,4 +1,4 @@
-from config import TOKEN, DBU, DBN, DBPr, DBP, DBH
+from config import *
 import telebot, psycopg2
 
 # Telegram API setup
@@ -9,8 +9,9 @@ bot = telebot.TeleBot(
 
 # Database connection and setup
 conn = psycopg2.connect(
-    database=DBN,user=DBU,password=DBP,host=DBH,
-    port=DBPr
+    database=DB_Name,user=DB_User,
+    password=DB_Password,host=DB_Host,
+    port=DB_Port
     )
 
 cur = conn.cursor()
